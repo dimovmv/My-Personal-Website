@@ -2,6 +2,8 @@
 const burger = document.querySelector('#burger-menu');
 const ul = document.querySelector('nav ul');
 const nav = document.querySelector('nav');
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+let interval = null;
 
 // Scroll to top selection
 const scrollUp = document.querySelector('#scroll-up');
@@ -67,38 +69,29 @@ const currentYear = new Date().getFullYear();
 // Update the content of the element with the current year
 document.getElementById('currentYear').textContent = currentYear;
 
-/* paste this line in verbatim */
-// window.formbutton =
-//   window.formbutton ||
-//   function () {
-//     (formbutton.q = formbutton.q || []).push(arguments);
-// };
-/* customize formbutton below*/
-// formbutton("create", {
-//   action: "https://formspree.io/f/xlezadop",
-//   title: "How can we help?",
-//   fields: [
-//     {
-//       type: "email",
-//       label: "Email:",
-//       name: "email",
-//       required: true,
-//       placeholder: "your@email.com",
-//     },
-//     {
-//       type: "textarea",
-//       label: "Message:",
-//       name: "message",
-//       placeholder: "What's on your mind?",
-//     },
-//     { type: "submit" },
-//   ],
-//   styles: {
-//     title: {
-//       backgroundColor: "gray",
-//     },
-//     button: {
-//       backgroundColor: "gray",
-//     },
-//   },
-// });
+// Name with hacker effect
+
+document.querySelector('h1').onmouseover = (event) => {
+  clearInterval(interval);
+  let iteration = 0;
+  const targetText = event.target.dataset.value;
+
+  interval = setInterval(() => {
+    event.target.innerText = targetText
+      .split('')
+      .map((letter, index) => {
+        if (index < iteration) {
+          return targetText[index];
+        }
+
+        return letters[Math.floor(Math.random() * letters.length)];
+      })
+      .join('');
+
+    if (iteration >= targetText.length) {
+      clearInterval(interval);
+    }
+
+    iteration += 1 / 3;
+  }, 30);
+};
